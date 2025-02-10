@@ -15,13 +15,19 @@ public class AuthorizeController {
     private GitHubProvider gitHubProvider;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(name = "code") String code){
+    public String callback(@RequestParam(name = "code") String code,
+                           @RequestParam(name = "state", required = false) String state){
+        System.out.println("Received code: " + code);
+
+
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
 
-        accessTokenDTO.setClient_id("Ov23liv0K3c4GiHBkWG8") ;
+        accessTokenDTO.setClient_id("3771f18ada3a6fd9f46a66910f74fa01348d085957452c6c74552fcaad26b9e7");
         accessTokenDTO.setCode(code);
-        accessTokenDTO.setClient_secret("84de1879d5ba570541e9943df457f5945bc2b7bf");
-        accessTokenDTO.setRedict_uri("http://localhost:8887/callback");
+        accessTokenDTO.setClient_secret("e3c5a29570bc30113960987dd9598b86e05989cd6723a3f187c98d36ecf5aa48");
+        accessTokenDTO.setRedirect_uri("http://localhost:8887/callback");
+        accessTokenDTO.setState(state);
+        accessTokenDTO.setGrant_type("authorization_code");
 
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);

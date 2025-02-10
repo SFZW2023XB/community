@@ -4,7 +4,25 @@ public class AccessTokenDTO {
     String client_id;
     String client_secret;
     String code;
-    String redict_uri;
+    String redirect_uri;
+    String state;
+    String grant_type;
+
+    public String getGrant_type() {
+        return grant_type;
+    }
+
+    public void setGrant_type(String grant_type) {
+        this.grant_type = grant_type;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getClient_id() {
         return client_id;
@@ -30,11 +48,11 @@ public class AccessTokenDTO {
         this.code = code;
     }
 
-    public String getRedict_uri() {
-        return redict_uri;
+    public String getRedirect_uri() {
+        return redirect_uri;
     }
 
-    public void setRedict_uri(String redict_uri) {
-        this.redict_uri = redict_uri;
+    public void setRedirect_uri(String redirect_uri) {
+        this.redirect_uri = redirect_uri;
     }
 }
