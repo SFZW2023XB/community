@@ -1,5 +1,6 @@
 package life.fuzhong.community.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import life.fuzhong.community.dto.AccessTokenDTO;
 import life.fuzhong.community.dto.GitHubUser;
 import life.fuzhong.community.provider.GitHubProvider;
@@ -25,7 +26,8 @@ public class AuthorizeController {
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam(name = "state", required = false) String state){
+                           @RequestParam(name = "state", required = false) String state,
+                           HttpServletRequest httpServletRequest){
         //System.out.println("Received code: " + code);
 
 
@@ -41,9 +43,12 @@ public class AuthorizeController {
 
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
-        System.out.println(gitHubUser.getName());
-
-        return "index";
+        if(gitHubUser != null){
+            httpServletRequest.getSession().setAttribute("user", gitHubUser);
+            return "redirect:/";
+        }else {
+            return "redirect:/";
+        }
     }
 
 

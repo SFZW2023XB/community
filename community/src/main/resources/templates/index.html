@@ -9,6 +9,7 @@
 
 
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="js/bootstrap.bundle.min.js" type="application/javascript"></script>
 </head>
 
 <body>
@@ -26,27 +27,49 @@
 <!--                <li class="nav-item">-->
 <!--                    <a class="nav-link" href="#">Link</a>-->
 <!--                </li>-->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
+<!--                <li class="nav-item dropdown">-->
+<!--                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                        Dropdown-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu">-->
+<!--                        <li><a class="dropdown-item" href="#">Action</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Another action</a></li>-->
+<!--                        <li><hr class="dropdown-divider"></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
                 <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    <a class="nav-link disabled" aria-disabled="true">其它</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="搜索话题" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <!-- 添加登录按钮 -->
-            <a class="btn btn-outline-primary ms-3" href="https://gitee.com/oauth/authorize?client_id=3771f18ada3a6fd9f46a66910f74fa01348d085957452c6c74552fcaad26b9e7&redirect_uri=http://localhost:8887/callback&response_type=code&scope=user_info" role="button">登录</a>
+                <form class="d-flex ms-auto" role="search"> <!-- 添加 ms-auto 使搜索框右对齐 -->
+                    <input class="form-control me-2" type="search" placeholder="搜索话题" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+
+
+                <!-- 登录按钮或用户中心，右侧显示 -->
+                <ul class="navbar-nav ms-auto"> <!-- 使整个ul右对齐 -->
+                    <!-- 用户已登录时显示的下拉菜单 -->
+                    <li class="nav-item dropdown" th:if="${session.user != null}">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.user.getName()}">
+
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">消息中心</a></li>
+                            <li><a class="dropdown-item" href="#">个人资料</a></li>
+                            <li><a class="dropdown-item" href="#">退出登录</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- 用户未登录时显示的登录按钮 -->
+                    <li class="nav-item" th:if="${session.user == null}">
+                        <a class="btn btn-outline-primary ms-3" href="https://gitee.com/oauth/authorize?client_id=3771f18ada3a6fd9f46a66910f74fa01348d085957452c6c74552fcaad26b9e7&redirect_uri=http://localhost:8887/callback&response_type=code&scope=user_info" role="button">登录</a>
+                    </li>
+                </ul>
+
+<!--            <a class="btn btn-outline-primary ms-3" href="https://gitee.com/oauth/authorize?client_id=3771f18ada3a6fd9f46a66910f74fa01348d085957452c6c74552fcaad26b9e7&redirect_uri=http://localhost:8887/callback&response_type=code&scope=user_info" role="button">登录</a>-->
+
         </div>
     </div>
 </nav>
