@@ -39,7 +39,7 @@ public class GitHubProvider {
             if (json.containsKey("access_token")) {
                 String accessToken = json.getString("access_token");
                 //
-                System.out.println(accessToken);
+                //System.out.println(accessToken);
                 return accessToken;
 
             }
@@ -75,10 +75,10 @@ public class GitHubProvider {
         if (accessToken == null || accessToken.isEmpty()) {
             throw new IllegalArgumentException("Access token is null or empty");
         }
-        System.out.println("Access Token: " + accessToken); // 打印access token
+        //System.out.println("Access Token: " + accessToken); // 打印access token
         OkHttpClient client = new OkHttpClient();
         //
-        System.out.println("Authorization Header: Bearer " + accessToken);
+        //System.out.println("Authorization Header: Bearer " + accessToken);
         Request request = new Request.Builder()
                 .url("https://gitee.com/api/v5/user")
                 .addHeader("Authorization", "Bearer " + accessToken)

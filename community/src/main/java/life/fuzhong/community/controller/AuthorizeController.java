@@ -3,12 +3,16 @@ package life.fuzhong.community.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import life.fuzhong.community.dto.AccessTokenDTO;
 import life.fuzhong.community.dto.GitHubUser;
+import life.fuzhong.community.mapper.UserMapper;
+import life.fuzhong.community.model.Users;
 import life.fuzhong.community.provider.GitHubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -23,6 +27,13 @@ public class AuthorizeController {
     @Value("${github.redirect.uri}")
     private String redirectUri;
 
+//    private final UserMapper userMapper;
+//    public AuthorizeController(UserMapper userMapper) {
+//        this.userMapper = userMapper;
+//    }
+
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -44,8 +55,16 @@ public class AuthorizeController {
         String accessToken = gitHubProvider.getAccessToken(accessTokenDTO);
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
         if(gitHubUser != null){
+            Users users = new Users();
+            users.setToken(UUID.randomUUID().toString());
+            users.setName(gitHubUser.getName());
+            users.setAccountId(String.valueOf(gitHubUser.getId()));
+            users.setGmtCreate(System.currentTimeMillis());
+            users.setGmtModified(users.getGmtCreate());
+            userMapper.insert(users);
             httpServletRequest.getSession().setAttribute("user", gitHubUser);
             return "redirect:/";
+
         }else {
             return "redirect:/";
         }
