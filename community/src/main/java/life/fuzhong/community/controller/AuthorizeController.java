@@ -1,6 +1,8 @@
 package life.fuzhong.community.controller;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import life.fuzhong.community.dto.AccessTokenDTO;
 import life.fuzhong.community.dto.GitHubUser;
 import life.fuzhong.community.mapper.UserMapper;
@@ -38,7 +40,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state", required = false) String state,
-                           HttpServletRequest httpServletRequest){
+                           HttpServletRequest httpServletRequest,
+                           HttpServletResponse response){
         //System.out.println("Received code: " + code);
 
 
@@ -56,13 +59,17 @@ public class AuthorizeController {
         GitHubUser gitHubUser = gitHubProvider.getUser(accessToken);
         if(gitHubUser != null){
             Users users = new Users();
-            users.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            users.setToken(token);
             users.setName(gitHubUser.getName());
             users.setAccountId(String.valueOf(gitHubUser.getId()));
             users.setGmtCreate(System.currentTimeMillis());
             users.setGmtModified(users.getGmtCreate());
             userMapper.insert(users);
-            httpServletRequest.getSession().setAttribute("user", gitHubUser);
+            response.addCookie(new Cookie("token", token));
+
+
+            // httpServletRequest.getSession().setAttribute("user", gitHubUser);
             return "redirect:/";
 
         }else {

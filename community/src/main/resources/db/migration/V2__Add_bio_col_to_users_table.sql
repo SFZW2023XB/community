@@ -1,0 +1,1 @@
+ALTER TABLE USERS ADD bio varchar(256) not null ;
