@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>发布 —— 电兵社区</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-utilities.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="js/bootstrap.bundle.min.js" type="application/javascript"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">电兵社区</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">首页</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link disabled" aria-disabled="true">其它</a>
+                </li>
+            </ul>
+            <form class="d-flex ms-auto" role="search"> <!-- 添加 ms-auto 使搜索框右对齐 -->
+                <input class="form-control me-2" type="search" placeholder="搜索话题" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+
+            <!-- 登录按钮或用户中心，右侧显示 -->
+            <ul class="navbar-nav ms-auto"> <!-- 使整个ul右对齐 -->
+                <!-- 用户已登录时显示的下拉菜单 -->
+                <li class="nav-item dropdown" th:if="${session.user != null}">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.user.getName()}">
+
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">消息中心</a></li>
+                        <li><a class="dropdown-item" href="#">个人资料</a></li>
+                        <li><a class="dropdown-item" href="#">退出登录</a></li>
+                    </ul>
+                </li>
+
+                <!-- 用户未登录时显示的登录按钮 -->
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="btn btn-outline-primary ms-3" href="https://gitee.com/oauth/authorize?client_id=3771f18ada3a6fd9f46a66910f74fa01348d085957452c6c74552fcaad26b9e7&redirect_uri=http://localhost:8887/callback&response_type=code&scope=user_info" role="button">登录</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<div class="container text-center">
+    <div class="row row-cols-auto">
+        <div class="col-md-8">
+            <h2><i class="bi bi-plus-square"></i>发起</h2>
+            <hr>
+            <form action="">
+                <form class="row g-3">
+                    <div class="col-md-12">
+                        <label for="title" class="form-label">问题标题（简单扼要）</label>
+                        <input type="text" class="form-control" id="title">
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control" id="description" style="height: 300px"></textarea>
+                        <label for="description">问题补充（必填，请按照右侧提示）</label>
+                    </div>
+<!--                    <div class="col-md-6">-->
+<!--                        <label for="inputPassword4" class="form-label">Password</label>-->
+<!--                        <input type="password" class="form-control" id="inputPassword4">-->
+<!--                    </div>-->
+<!--                    <div class="col-12">-->
+<!--                        <label for="inputAddress" class="form-label">Address</label>-->
+<!--                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">-->
+<!--                    </div>-->
+<!--                    <div class="col-12">-->
+<!--                        <label for="inputAddress2" class="form-label">Address 2</label>-->
+<!--                        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">-->
+<!--                    </div>-->
+                    <div class="col-md-6">
+                        <label for="inputCity" class="form-label">City</label>
+                        <input type="text" class="form-control" id="inputCity">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputState" class="form-label">State</label>
+                        <select id="inputState" class="form-select">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputZip" class="form-label">Zip</label>
+                        <input type="text" class="form-control" id="inputZip">
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gridCheck">
+                            <label class="form-check-label" for="gridCheck">
+                                Check me out
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
+                </form>
+            </form>
+        </div>
+        <div class="col-6 col-md-4"></div>
+    </div>
+</div>
+</body>
+</html>
