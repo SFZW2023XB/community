@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-utilities.min.css">
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
     <script src="js/bootstrap.bundle.min.js" type="application/javascript"></script>
 </head>
@@ -56,64 +58,176 @@
         </div>
     </div>
 </nav>
-<div class="container text-center">
-    <div class="row row-cols-auto">
-        <div class="col-md-8">
-            <h2><i class="bi bi-plus-square"></i>发起</h2>
-            <hr>
-            <form action="">
-                <form class="row g-3">
-                    <div class="col-md-12">
-                        <label for="title" class="form-label">问题标题（简单扼要）</label>
-                        <input type="text" class="form-control" id="title">
+<style>
+    /* 背景设计 */
+    body {
+        background: linear-gradient(135deg, rgba(0, 123, 255, 0.2), rgba(0, 123, 255, 0.5)),
+        url('https://example.com/your-tech-pattern.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 主容器的样式 */
+    .container {
+        background-color: rgba(255, 255, 255, 0.9); /* 透明背景 */
+        margin-top: 50px;
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 1200px;
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 表单内的标签和输入框 */
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .form-control:focus {
+        border-color: #0066cc;
+        box-shadow: 0 0 8px rgba(0, 102, 204, 0.5);
+    }
+
+    /* 提交按钮 */
+    .btn-primary {
+        background: linear-gradient(45deg, #0066cc, #00cc99);
+        border: none;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 5px;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(45deg, #00cc99, #0066cc);
+    }
+
+    /* 标签显示的区域 */
+    .badge {
+        background-color: #0066cc;
+        color: white;
+        font-size: 14px;
+        border-radius: 20px;
+        padding: 10px 15px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+
+    /* 右侧说明卡片 */
+    .card-body h4 {
+        font-size: 18px;
+        color: #0056b3;
+        font-weight: bold;
+    }
+
+    .card-body p {
+        color: #555;
+        font-size: 14px;
+    }
+
+    /* 右侧卡片的样式 */
+    .card {
+        background-color: rgba(255, 255, 255, 0.85);
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+<div class="container" style="max-width: 1600px;">
+    <div class="row justify-content-center">
+        <!-- 主内容区（占 8/12 屏幕）-->
+        <div class="col-lg-8 col-md-9 col-12">
+            <div class="card shadow-sm border-0 rounded-lg">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4 text-primary">
+                        <i class="bi bi-question-circle"></i> 发布问题
+                    </h2>
+
+                    <!-- 问题标题 -->
+                    <div class="mb-4">
+                        <label for="titleInput" class="form-label fs-4">问题标题</label>
+                        <input type="text" class="form-control fs-5 py-3 px-4" id="titleInput" placeholder="简明扼要地描述问题">
+                        <small class="form-text text-muted">
+                            <i class="bi bi-info-circle"></i> 请使用简洁的语言，标题越清晰，别人越容易理解。
+                        </small>
                     </div>
-                    <div class="form-floating">
-                        <textarea class="form-control" id="description" style="height: 300px"></textarea>
-                        <label for="description">问题补充（必填，请按照右侧提示）</label>
+
+                    <!-- 问题描述 -->
+                    <div class="mb-4">
+                        <label for="descriptionInput" class="form-label fs-4">问题描述</label>
+                        <textarea class="form-control fs-5 py-3 px-4" id="descriptionInput" rows="6" placeholder="详细描述你的问题，提供足够的背景信息和细节"></textarea>
+                        <small class="form-text text-muted">
+                            <i class="bi bi-pencil-square"></i> 请详细描述你的问题，包含遇到的错误、步骤或截图。
+                        </small>
                     </div>
-<!--                    <div class="col-md-6">-->
-<!--                        <label for="inputPassword4" class="form-label">Password</label>-->
-<!--                        <input type="password" class="form-control" id="inputPassword4">-->
-<!--                    </div>-->
-<!--                    <div class="col-12">-->
-<!--                        <label for="inputAddress" class="form-label">Address</label>-->
-<!--                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">-->
-<!--                    </div>-->
-<!--                    <div class="col-12">-->
-<!--                        <label for="inputAddress2" class="form-label">Address 2</label>-->
-<!--                        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">-->
-<!--                    </div>-->
-                    <div class="col-md-6">
-                        <label for="inputCity" class="form-label">City</label>
-                        <input type="text" class="form-control" id="inputCity">
+
+                    <!-- 标签输入 -->
+                    <div class="mb-4">
+                        <label for="tagsInput" class="form-label fs-4">问题标签</label>
+                        <input type="text" class="form-control fs-5 py-3 px-4" id="tagsInput" placeholder="输入标签并用逗号分隔（如：编程,算法）">
+                        <small class="form-text text-muted">
+                            <i class="bi bi-tag"></i> 输入标签并用逗号分隔（如：编程,算法）。
+                        </small>
                     </div>
-                    <div class="col-md-4">
-                        <label for="inputState" class="form-label">State</label>
-                        <select id="inputState" class="form-select">
-                            <option selected>Choose...</option>
-                            <option>...</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="inputZip" class="form-label">Zip</label>
-                        <input type="text" class="form-control" id="inputZip">
-                    </div>
-                    <div class="col-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="gridCheck">
-                            <label class="form-check-label" for="gridCheck">
-                                Check me out
-                            </label>
+
+                    <!-- 显示已选择的标签 -->
+                    <div class="mb-4">
+                        <label class="form-label fs-4">已选择标签</label>
+                        <div class="d-flex flex-wrap gap-2" id="selectedTags">
+                            <!-- 已选标签将动态添加在这里 -->
+
                         </div>
                     </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Sign in</button>
+
+                    <!-- 提交按钮 -->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary px-5 py-3 fs-4 shadow-lg">
+                            <i class="bi bi-upload"></i> 提交问题
+                        </button>
                     </div>
-                </form>
-            </form>
+                </div>
+            </div>
         </div>
-        <div class="col-6 col-md-4"></div>
+
+        <!-- 右侧说明区（占 4/12 屏幕）-->
+        <div class="col-lg-4 col-md-3 d-none d-md-block">
+            <div class="card shadow-sm mb-4" style="border-radius: .5rem; border: 1px solid #dcdcdc;">
+                <div class="card-body p-4">
+                    <h4 class="text-center">填写说明</h4>
+
+                    <!-- 问题标题说明 -->
+                    <div class="mb-3">
+                        <h5><i class="bi bi-file-earmark-text"></i> 问题标题</h5>
+                        <p class="text-muted">请简洁明了地描述你的问题，标题越清晰，别人更容易理解并提供帮助。</p>
+                    </div>
+
+                    <!-- 问题描述说明 -->
+                    <div class="mb-3">
+                        <h5><i class="bi bi-pencil"></i> 问题描述</h5>
+                        <p class="text-muted">尽量详细地描述你的问题，包括遇到的困难、错误信息或操作步骤等。</p>
+                    </div>
+
+                    <!-- 标签说明 -->
+                    <div class="mb-3">
+                        <h5><i class="bi bi-tag"></i> 标签</h5>
+                        <p class="text-muted">选择相关标签可以让你的问题更容易被他人找到和回答。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
 </body>
 </html>
