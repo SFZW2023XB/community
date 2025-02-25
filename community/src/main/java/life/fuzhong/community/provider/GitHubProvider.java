@@ -32,7 +32,7 @@ public class GitHubProvider {
 
             String responseBody = response.body().string();
             //
-            System.out.println("Response: " + responseBody);
+            //System.out.println("Response: " + responseBody);
 
             JSONObject json = JSON.parseObject(responseBody);
 

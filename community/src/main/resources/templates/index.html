@@ -50,8 +50,10 @@
 
                 <!-- 登录按钮或用户中心，右侧显示 -->
                 <ul class="navbar-nav ms-auto"> <!-- 使整个ul右对齐 -->
+                    <a href="/publish" class="btn btn-primary me-2">发布</a>
                     <!-- 用户已登录时显示的下拉菜单 -->
                     <li class="nav-item dropdown" th:if="${session.user != null}">
+
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.user.getName()}">
 
                         </a>
