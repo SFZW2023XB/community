@@ -1,0 +1,89 @@
+/* 背景设计 */
+body {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.2), rgba(0, 123, 255, 0.5)),
+    url('https://example.com/your-tech-pattern.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 主容器的样式 */
+.container {
+    background-color: rgba(255, 255, 255, 0.9); /* 透明背景 */
+    margin-top: 50px;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 1200px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* 表单内的标签和输入框 */
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-control {
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.5);
+}
+
+/* 提交按钮 */
+.btn-primary {
+    background: linear-gradient(45deg, #0066cc, #00cc99);
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #00cc99, #0066cc);
+}
+
+/* 标签显示的区域 */
+.badge {
+    background-color: #0066cc;
+    color: white;
+    font-size: 14px;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+/* 右侧说明卡片 */
+.card-body h4 {
+    font-size: 18px;
+    color: #0056b3;
+    font-weight: bold;
+}
+
+.card-body p {
+    color: #555;
+    font-size: 14px;
+}
+
+/* 右侧卡片的样式 */
+.card {
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/*设置图片格式 index展示*/
+.small-img {
+    max-width: 150px; /* 设置宽度为150px */
+    height: auto; /* 保持纵横比 */
+}
