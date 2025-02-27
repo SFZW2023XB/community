@@ -14,58 +14,12 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">电兵社区</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">首页</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">其它</a>
-                </li>
-            </ul>
-            <form class="d-flex ms-auto" role="search"> <!-- 添加 ms-auto 使搜索框右对齐 -->
-                <input class="form-control me-2" type="search" placeholder="搜索话题" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-
-
-            <!-- 登录按钮或用户中心，右侧显示 -->
-            <ul class="navbar-nav ms-auto"> <!-- 使整个ul右对齐 -->
-                <!-- 用户已登录时显示的下拉菜单 -->
-                <a href="/publish" class="btn btn-primary me-2">发布</a>
-                <li class="nav-item dropdown" th:if="${session.user != null}">
-
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${session.user.getName()}">
-
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">消息中心</a></li>
-                        <li><a class="dropdown-item" href="#">个人资料</a></li>
-                        <li><a class="dropdown-item" href="#">退出登录</a></li>
-                    </ul>
-                </li>
-
-                <!-- 用户未登录时显示的登录按钮 -->
-                <li class="nav-item" th:if="${session.user == null}">
-                    <a class="btn btn-outline-primary ms-3" href="https://gitee.com/oauth/authorize?client_id=3771f18ada3a6fd9f46a66910f74fa01348d085957452c6c74552fcaad26b9e7&redirect_uri=http://localhost:8887/callback&response_type=code&scope=user_info" role="button">登录</a>
-                </li>
-            </ul>
-
-        </div>
-    </div>
-</nav>
+<div th:insert="~{navigation :: nav}"></div>
 
 <form action="/publish" method="post">
     <div class="container" style="max-width: 1600px;">
         <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-9 col-12">
+            <div class="col-lg-9 col-md-10 col-12">
                 <div class="card shadow-sm border-0 rounded-lg">
                     <div class="card-body p-5">
                             <h2 class="text-center mb-4 text-primary">
@@ -75,7 +29,7 @@
                             <!-- 问题标题 -->
                             <div class="mb-4">
                                 <label for="title" class="form-label fs-4">问题标题</label>
-                                <input type="text" class="form-control fs-5 py-3 px-4" id="title" name="title" placeholder="简明扼要地描述问题">
+                                <input type="text" class="form-control fs-5 py-3 px-4" id="title" name="title" th:text="${title}" placeholder="简明扼要地描述问题">
                                 <small class="form-text text-muted">
                                     <i class="bi bi-info-circle"></i> 请使用简洁的语言，标题越清晰，别人越容易理解。
                                 </small>
@@ -85,7 +39,7 @@
                             <!-- 问题描述 -->
                             <div class="mb-4">
                                 <label for="description" class="form-label fs-4">问题描述</label>
-                                <textarea class="form-control fs-5 py-3 px-4" id="description" name="description" rows="8" placeholder="详细描述你的问题，提供足够的背景信息和细节"></textarea>
+                                <textarea class="form-control fs-5 py-3 px-4" id="description" name="description" rows="8" th:text="${description}" placeholder="详细描述你的问题，提供足够的背景信息和细节"></textarea>
                                 <small class="form-text text-muted">
                                     <i class="bi bi-pencil-square"></i> 请详细描述你的问题，包含遇到的错误、步骤或截图。
                                 </small>
@@ -95,7 +49,7 @@
                             <!-- 标签输入 -->
                             <div class="mb-4">
                                 <label for="tag" class="form-label fs-4">问题标签</label>
-                                <input type="text" class="form-control fs-5 py-3 px-4" id="tag" name="tag" placeholder="输入标签并用逗号分隔（如：编程,算法）">
+                                <input type="text" class="form-control fs-5 py-3 px-4" id="tag" name="tag" th:text="${tag}" placeholder="输入标签并用逗号分隔（如：编程,算法）">
                                 <small class="form-text text-muted">
                                     <i class="bi bi-tag"></i> 输入标签并用逗号分隔（如：编程,算法）。
                                 </small>
@@ -112,8 +66,8 @@
                     </div>
                 </div>
 
-                <!-- 右侧说明区（占 4/12 屏幕）-->
-                <div class="col-lg-4 col-md-3 d-none d-md-block">
+                <!-- 右侧说明区（占 1/5 屏幕）-->
+                <div class="col-lg-3 col-md-2 d-none d-md-block">
                     <div class="card shadow-sm mb-4" style="border-radius: .5rem; border: 1px solid #dcdcdc;">
                         <div class="card-body p-4">
                             <h4 class="text-center">填写说明</h4>

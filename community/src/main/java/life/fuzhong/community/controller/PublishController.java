@@ -72,9 +72,11 @@ public class PublishController {
         Question question = new Question();
         question.setTitle(title);
         question.setDescription(description);
+        question.setTag(tag);
         question.setCreator(users.getId());
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
+
         questionMapper.create(question);
 
             return "redirect:/";

@@ -3,6 +3,7 @@ package life.fuzhong.community.controller;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import life.fuzhong.community.dto.PaginationDTO;
 import life.fuzhong.community.dto.QuestionDTO;
 import life.fuzhong.community.mapper.QuestionMapper;
 import life.fuzhong.community.mapper.UserMapper;
@@ -28,7 +29,9 @@ public class indexController {
 
     @GetMapping("/")
     public String index (HttpServletRequest request,
-                         Model model){
+                         Model model,
+                         @RequestParam(name = "page", defaultValue = "1") Integer page,
+                         @RequestParam(name = "size", defaultValue = "5") Integer size){
 
         Cookie[] cookies = request.getCookies();
         if(cookies != null && cookies.length != 0) {
@@ -44,8 +47,8 @@ public class indexController {
             }
         }
 
-        List<QuestionDTO> questionList = questionService.list();
-        model.addAttribute("questions", questionList);
+        PaginationDTO pagination = questionService.list(page, size);
+        model.addAttribute("pagination", pagination);
 
         
 
