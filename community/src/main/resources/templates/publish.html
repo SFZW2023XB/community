@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>发布 —— 电兵社区</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-utilities.min.css">
     <link rel="stylesheet" href="css/bootstrap-grid.min.css">
@@ -22,78 +22,85 @@
             <div class="col-lg-9 col-md-10 col-12">
                 <div class="card shadow-sm border-0 rounded-lg">
                     <div class="card-body p-5">
-                            <h2 class="text-center mb-4 text-primary">
-                                <i class="bi bi-question-circle"></i> 发布问题
-                            </h2>
+                        <h2 class="text-center mb-4 text-primary">
+                            <i class="bi bi-question-circle"></i> 发布问题
+                        </h2>
+                        <div th:if="${error != null}" class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle"></i> <span th:text="${error}"></span>
+                        </div>
 
-                            <!-- 问题标题 -->
-                            <div class="mb-4">
-                                <label for="title" class="form-label fs-4">问题标题</label>
-                                <input type="text" class="form-control fs-5 py-3 px-4" id="title" name="title" th:text="${title}" placeholder="简明扼要地描述问题">
-                                <small class="form-text text-muted">
-                                    <i class="bi bi-info-circle"></i> 请使用简洁的语言，标题越清晰，别人越容易理解。
-                                </small>
-                                <div class="text-danger" th:if="${errorTitle != null}">标题不能为空</div>
-                            </div>
+                        <!-- 问题标题 -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label fs-4">问题标题</label>
+                            <input type="text" class="form-control fs-5 py-3 px-4" id="title" name="title"
+                                   th:value="${title}" placeholder="简明扼要地描述问题">
+                            <small class="form-text text-muted">
+                                <i class="bi bi-info-circle"></i> 请使用简洁的语言，标题越清晰，别人越容易理解。
+                            </small>
+                            <div class="text-danger" th:if="${errorTitle != null}">标题不能为空</div>
+                        </div>
 
-                            <!-- 问题描述 -->
-                            <div class="mb-4">
-                                <label for="description" class="form-label fs-4">问题描述</label>
-                                <textarea class="form-control fs-5 py-3 px-4" id="description" name="description" rows="8" th:text="${description}" placeholder="详细描述你的问题，提供足够的背景信息和细节"></textarea>
-                                <small class="form-text text-muted">
-                                    <i class="bi bi-pencil-square"></i> 请详细描述你的问题，包含遇到的错误、步骤或截图。
-                                </small>
-                                <div class="text-danger" th:if="${errorDescription != null}">问题描述不能为空</div>
-                            </div>
+                        <!-- 问题描述 -->
+                        <div class="mb-4">
+                            <label for="description" class="form-label fs-4">问题描述</label>
+                            <textarea class="form-control fs-5 py-3 px-4" id="description" name="description" rows="8"
+                                      th:text="${description}"
+                                      placeholder="详细描述你的问题，提供足够的背景信息和细节"></textarea>
+                            <small class="form-text text-muted">
+                                <i class="bi bi-pencil-square"></i> 请详细描述你的问题，包含遇到的错误、步骤或截图。
+                            </small>
+                            <div class="text-danger" th:if="${errorDescription != null}">问题描述不能为空</div>
+                        </div>
 
-                            <!-- 标签输入 -->
-                            <div class="mb-4">
-                                <label for="tag" class="form-label fs-4">问题标签</label>
-                                <input type="text" class="form-control fs-5 py-3 px-4" id="tag" name="tag" th:text="${tag}" placeholder="输入标签并用逗号分隔（如：编程,算法）">
-                                <small class="form-text text-muted">
-                                    <i class="bi bi-tag"></i> 输入标签并用逗号分隔（如：编程,算法）。
-                                </small>
-                                <div class="text-danger" th:if="${errorTag != null}">标签不能为空</div>
-                            </div>
+                        <!-- 标签输入 -->
+                        <div class="mb-4">
+                            <label for="tag" class="form-label fs-4">问题标签</label>
+                            <input type="text" class="form-control fs-5 py-3 px-4" id="tag" name="tag" th:value="${tag}"
+                                   placeholder="输入标签并用逗号分隔（如：编程,算法）">
+                            <small class="form-text text-muted">
+                                <i class="bi bi-tag"></i> 输入标签并用逗号分隔（如：编程,算法）。
+                            </small>
+                            <div class="text-danger" th:if="${errorTag != null}">标签不能为空</div>
+                        </div>
 
-                            <!-- 提交按钮 -->
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary px-5 py-3 fs-4 shadow-lg">
-                                    <i class="bi bi-upload"></i> 提交问题
-                                </button>
-                            </div>
+                        <!-- 提交按钮 -->
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary px-5 py-3 fs-4 shadow-lg">
+                                <i class="bi bi-upload"></i> 提交问题
+                            </button>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- 右侧说明区（占 1/5 屏幕）-->
-                <div class="col-lg-3 col-md-2 d-none d-md-block">
-                    <div class="card shadow-sm mb-4" style="border-radius: .5rem; border: 1px solid #dcdcdc;">
-                        <div class="card-body p-4">
-                            <h4 class="text-center">填写说明</h4>
+            <!-- 右侧说明区（占 1/5 屏幕）-->
+            <div class="col-lg-3 col-md-2 d-none d-md-block">
+                <div class="card shadow-sm mb-4" style="border-radius: .5rem; border: 1px solid #dcdcdc;">
+                    <div class="card-body p-4">
+                        <h4 class="text-center">填写说明</h4>
 
-                            <!-- 问题标题说明 -->
-                            <div class="mb-3">
-                                <h5><i class="bi bi-file-earmark-text"></i> 问题标题</h5>
-                                <p class="text-muted">请简洁明了地描述你的问题，标题越清晰，别人更容易理解并提供帮助。</p>
-                            </div>
+                        <!-- 问题标题说明 -->
+                        <div class="mb-3">
+                            <h5><i class="bi bi-file-earmark-text"></i> 问题标题</h5>
+                            <p class="text-muted">请简洁明了地描述你的问题，标题越清晰，别人更容易理解并提供帮助。</p>
+                        </div>
 
-                            <!-- 问题描述说明 -->
-                            <div class="mb-3">
-                                <h5><i class="bi bi-pencil"></i> 问题描述</h5>
-                                <p class="text-muted">尽量详细地描述你的问题，包括遇到的困难、错误信息或操作步骤等。</p>
-                            </div>
+                        <!-- 问题描述说明 -->
+                        <div class="mb-3">
+                            <h5><i class="bi bi-pencil"></i> 问题描述</h5>
+                            <p class="text-muted">尽量详细地描述你的问题，包括遇到的困难、错误信息或操作步骤等。</p>
+                        </div>
 
-                            <!-- 标签说明 -->
-                            <div class="mb-3">
-                                <h5><i class="bi bi-tag"></i> 标签</h5>
-                                <p class="text-muted">选择相关标签可以让你的问题更容易被他人找到和回答。</p>
-                            </div>
+                        <!-- 标签说明 -->
+                        <div class="mb-3">
+                            <h5><i class="bi bi-tag"></i> 标签</h5>
+                            <p class="text-muted">选择相关标签可以让你的问题更容易被他人找到和回答。</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </form>
 
 

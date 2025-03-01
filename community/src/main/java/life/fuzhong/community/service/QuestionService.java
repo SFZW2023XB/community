@@ -28,6 +28,7 @@ public class QuestionService {
 
         Integer totalPage = (totalCount + size - 1) / size;
         if (page <= 0) page = 1;
+        if (totalPage == 0) totalPage = 1;
         if (page > totalPage) page = totalPage;
 
         paginationDTO.setPagination(totalPage, page);
@@ -62,6 +63,7 @@ public class QuestionService {
 
         Integer totalPage = (totalCount + size - 1) / size;
         if (page <= 0) page = 1;
+        if(totalPage == 0) totalPage = 1;
         if (page > totalPage) page = totalPage;
 
 

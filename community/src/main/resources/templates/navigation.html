@@ -31,20 +31,20 @@
                 <ul class="navbar-nav ms-auto"> <!-- 使整个ul右对齐 -->
                     <a href="/publish" class="btn btn-primary me-2">提问</a>
                     <!-- 用户已登录时显示的下拉菜单 -->
-                    <li class="nav-item dropdown" th:if="${session.user != null}">
+                    <li class="nav-item dropdown" th:if="${session.users != null}">
 
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false" th:text="${session.user.getName()}">
+                           aria-expanded="false" th:text="${session.users.getName()}">
 
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/profile/questions">我的问题</a></li>
-                            <li><a class="dropdown-item" href="#">退出登录</a></li>
+                            <li><a class="dropdown-item" href="/logout">退出登录</a></li>
                         </ul>
                     </li>
 
                     <!-- 用户未登录时显示的登录按钮 -->
-                    <li class="nav-item" th:if="${session.user == null}">
+                    <li class="nav-item" th:if="${session.users == null}">
                         <a class="btn btn-outline-primary ms-3"
                            href="https://gitee.com/oauth/authorize?client_id=3771f18ada3a6fd9f46a66910f74fa01348d085957452c6c74552fcaad26b9e7&redirect_uri=http://localhost:8887/callback&response_type=code&scope=user_info"
                            role="button">登录</a>

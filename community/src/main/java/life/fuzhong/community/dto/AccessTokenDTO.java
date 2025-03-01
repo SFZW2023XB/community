@@ -10,6 +10,4 @@ public class AccessTokenDTO {
     String redirect_uri;
     String state;
     String grant_type;
-
-
 }

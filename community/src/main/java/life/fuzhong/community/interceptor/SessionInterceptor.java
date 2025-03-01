@@ -22,7 +22,7 @@ public class SessionInterceptor implements HandlerInterceptor {
                     String token = cookie.getValue();
                     Users users = userMapper.findBytoken(token);
                     if (users != null) {
-                        request.getSession().setAttribute("user", users);
+                        request.getSession().setAttribute("users", users);
                     }
                     break;
                 }

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class PublishController {
     @Resource
+    private UserMapper userMapper;
+    @Resource
     private QuestionMapper questionMapper;
 
     @GetMapping("/publish")
@@ -50,10 +52,26 @@ public class PublishController {
             return "publish";
         }
 
-        Users users =(Users) request.getSession().getAttribute("users");
+        Users users = null;
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null && cookies.length != 0) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    String token = cookie.getValue();
+                    users = userMapper.findBytoken(token);
+                    if (users != null) {
+                        request.getSession().setAttribute("users", users);
+                    }
+                    break;
+                }
+            }
+        }
+
+
 
         if(users == null){
             model.addAttribute("error", "用户未登录");
+            return "publish";
         }
 
         Question question = new Question();
