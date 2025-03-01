@@ -22,14 +22,15 @@ public class QuestionService {
     private UserMapper userMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
-
-
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.count();
-        paginationDTO.setPagination(totalCount, page, size);
 
+
+        Integer totalPage = (totalCount + size - 1) / size;
         if (page <= 0) page = 1;
-        if (page > paginationDTO.getTotalPage()) page = paginationDTO.getTotalPage();
+        if (page > totalPage) page = totalPage;
+
+        paginationDTO.setPagination(totalPage, page);
 
         Integer offset = size * (page - 1);
 
@@ -52,9 +53,47 @@ public class QuestionService {
         paginationDTO.setQuestions(questionDTOList);
 
 
-
-
-
         return paginationDTO;
+    }
+
+    public PaginationDTO list(Integer usersID, Integer page, Integer size) {
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = questionMapper.countByUsersID(usersID);
+
+        Integer totalPage = (totalCount + size - 1) / size;
+        if (page <= 0) page = 1;
+        if (page > totalPage) page = totalPage;
+
+
+        paginationDTO.setPagination(totalPage, page);
+        Integer offset = size * (page - 1);
+
+        List<Question> questionList = questionMapper.listByUsersID(usersID, offset, size);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+
+        for (Question question : questionList) {
+            Users users = userMapper.findByID(question.getCreator());
+            if (users == null) {
+                // 如果没有找到用户，使用默认的用户对象或跳过
+                users = new Users();
+                users.setAvatarUrl("https://assets.leetcode.cn/aliyun-lc-upload/default_avatar.png");  // 设置默认头像
+            }
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTO.setUsers(users);
+            questionDTOList.add(questionDTO);
+        };
+        paginationDTO.setQuestions(questionDTOList);
+        return paginationDTO;
+    }
+
+    public QuestionDTO getByID(Integer id) {
+        Question question = questionMapper.findByID(id);
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question, questionDTO);
+        Users users = userMapper.findByID(question.getCreator());
+        questionDTO.setUsers(users);
+        return questionDTO;
     }
 }

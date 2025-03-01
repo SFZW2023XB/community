@@ -19,9 +19,6 @@ public class PublishController {
     @Resource
     private QuestionMapper questionMapper;
 
-    @Resource
-    private UserMapper userMapper;
-
     @GetMapping("/publish")
     public String publish(){
         return "publish";
@@ -53,18 +50,8 @@ public class PublishController {
             return "publish";
         }
 
-        Users users = null;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if(cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                users = userMapper.findBytoken(token);
-                if(users != null){
-                    request.getSession().setAttribute("user", users);
-                }
-                break;
-            }
-        }
+        Users users =(Users) request.getSession().getAttribute("users");
+
         if(users == null){
             model.addAttribute("error", "用户未登录");
         }

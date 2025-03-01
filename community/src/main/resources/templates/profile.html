@@ -1,17 +1,17 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>电兵社区</title>
+    <title th:text="${sectionName}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-utilities.min.css">
-    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="css/community.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-utilities.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="/css/community.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
-    <script src="js/bootstrap.bundle.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.bundle.min.js" type="application/javascript"></script>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
             <div class="card shadow-sm border-0 rounded-3 mb-4" style="background-color: #fff;">
                 <div class="card-body">
                     <h2 class="text-center mb-4 text-primary">
-                        <i class="bi bi-card-list"></i> 发现
+                        <span th:text="${sectionName}"></span>
                     </h2>
                     <hr>
 
@@ -34,10 +34,7 @@
                             <img th:src="${question.users.getAvatarUrl()}" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
                         </div>
                         <div class="col-md-10">
-                            <h5 class="mt-0" style="font-size: 1.2rem; font-weight: 500;">
-                                <a th:href="@{'/question/' + ${question.getId()}}" th:text="${question.getTitle()}"></a>
-                            </h5>
-                            <p th:text="${question.getDescription()}" style="color: #666;"></p>
+                            <h5 class="mt-0" th:text="${question.getTitle()}" style="font-size: 1.2rem; font-weight: 500;"></h5>
 
                             <div class="d-flex justify-content-between align-items-center text-muted mt-2" style="font-size: 0.875rem;">
                                 <span>
@@ -54,32 +51,34 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item" th:if="${pagination.showFirst}">
-                                <a class="page-link" href="/?page=1">
+                                <a class="page-link" th:href="@{'/profile/'+${section}(page=${1}) }">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                             <li class="page-item" th:if="${pagination.showPre}">
-                                <a class="page-link"  th:href="@{/(page=${pagination.getPage() - 1})}" aria-label="Previous">
+                                <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.getPage() - 1}) }" aria-label="Previous">
                                     <span aria-hidden="true">&lt;</span>
                                 </a>
                             </li>
                             <li class="page-item" th:each="page : ${pagination.pages}" th:class="${pagination.getPage == page ? 'active' : ''}">
-                                <a class="page-link" th:href="@{/(page=${page})}" th:text="${page}" ></a>
+                                <a class="page-link" th:href="@{'/profile/'+${section}(page=${page}) }" th:text="${page}" ></a>
                             </li>
 
                             <li class="page-item" th:if="${pagination.showNext}">
-                                <a class="page-link" th:href="@{/(page=${pagination.getPage() + 1})}">
+                                <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.getPage() + 1}) }">
                                     <span aria-hidden="true">&gt;</span>
                                 </a>
                             </li>
                             <li class="page-item" th:if="${pagination.showEnd}">
-                                <a class="page-link" th:href="@{/(page=${pagination.getTotalPage()})}" aria-label="Previous">
+                                <a class="page-link" th:href="@{'/profile/'+${section}(page=${pagination.getTotalPage()}) }" aria-label="Previous">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
 
                         </ul>
                     </nav>
+
+
 
                 </div>
             </div>
@@ -89,7 +88,18 @@
         <div class="col-lg-3 col-md-2 d-none d-md-block">
             <div class="card shadow-sm mb-4" style="border-radius: .5rem; border: 1px solid #dcdcdc; background-color: #fff;">
                 <div class="card-body p-4">
-                    <h4 class="text-center" style="font-size: 1.125rem; font-weight: 500;">热点话题</h4>
+                    <div class="list-group">
+                        <a href="/profile/questions" th:class="${section=='questions'} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" >
+                            我的问题
+                        </a>
+                        <a href="/profile/replies" th:class="${section== 'replies'} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action' ">
+                            最新回复
+                            <span class="badge text-bg-primary rounded-pill">14</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">A third link item</a>
+                        <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+                        <a class="list-group-item list-group-item-action disabled" aria-disabled="true">A disabled link item</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,4 +108,3 @@
 
 
 </body>
-</html>
