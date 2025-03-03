@@ -3,6 +3,8 @@ package life.fuzhong.community.service;
 import jakarta.annotation.Resource;
 import life.fuzhong.community.dto.PaginationDTO;
 import life.fuzhong.community.dto.QuestionDTO;
+import life.fuzhong.community.exception.CustomizeErrorCode;
+import life.fuzhong.community.exception.CustomizeException;
 import life.fuzhong.community.mapper.QuestionMapper;
 import life.fuzhong.community.mapper.UserMapper;
 import life.fuzhong.community.model.Question;
@@ -57,7 +59,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO list(Integer usersID, Integer page, Integer size) {
+    public PaginationDTO list(Long usersID, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalCount = questionMapper.countByUsersID(usersID);
 
@@ -90,8 +92,12 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO getByID(Integer id) {
+    public QuestionDTO getByID(Long id) {
         Question question = questionMapper.findByID(id);
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         Users users = userMapper.findByID(question.getCreator());
@@ -103,10 +109,20 @@ public class QuestionService {
         if(question.getId() == null){
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setViewCount(0);
+            question.setLikeCount(0);
             questionMapper.create(question);
         }else{
             question.setGmtModified(System.currentTimeMillis());
             questionMapper.update(question);
+            if(question ==null){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
+    }
+
+    public void incView(Long id) {
+        questionMapper.incrementViewCount(id);
     }
 }

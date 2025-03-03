@@ -17,14 +17,26 @@ public interface QuestionMapper {
     Integer count();
 
     @Select("select * from question where creator = #{usersID} limit #{size} offset #{offset}")
-    List<Question> listByUsersID(@Param("usersID") Integer usersID,@Param("offset") Integer offset,@Param("size") Integer size);
+    List<Question> listByUsersID(@Param("usersID") Long usersID,@Param("offset") Integer offset,@Param("size") Integer size);
 
     @Select("select  count (1) from question where creator = #{usersID}")
-    Integer countByUsersID(@Param("usersID") Integer usersID);
+    Integer countByUsersID(@Param("usersID") Long usersID);
 
     @Select("select * from question where id = #{id}")
-    Question findByID(@Param("id") Integer id);
+    Question findByID(@Param("id") Long id);
 
     @Update("update question set title = #{title}, description = #{description}, tag = #{tag}, gmt_modified = #{gmtModified} where id = #{id}")
     void update(Question question);
+
+    @Update("update question set view_count = #{viewCount}  where id = #{id}")
+    void updateView(Question question);
+
+    @Update("update question set comment_count = #{commentCount} where id = #{id}")
+    void updateCommentCount(Question question);
+
+    @Update("UPDATE question SET view_count = view_count + 1 WHERE id = #{id};")
+    void incrementViewCount(Long id);
+
+    @Update("UPDATE question SET comment_count = comment_count + 1 WHERE id = #{id};")
+    void incCommentCount(Question question);
 }
