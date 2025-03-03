@@ -8,8 +8,10 @@ import life.fuzhong.community.mapper.CommentMapper;
 import life.fuzhong.community.mapper.QuestionMapper;
 import life.fuzhong.community.model.Comment;
 import life.fuzhong.community.model.Question;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class CommentService {
 
     @Resource
@@ -43,6 +45,7 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
 
+            commentMapper.create(comment);
             questionMapper.incCommentCount(question);
 
         }

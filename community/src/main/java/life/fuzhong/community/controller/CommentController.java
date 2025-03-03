@@ -17,9 +17,6 @@ import java.util.HashMap;
 
 @Controller
 public class CommentController {
-
-    @Resource
-    private CommentMapper commentMapper;
     @Resource
     private CommentService commentService;
 
