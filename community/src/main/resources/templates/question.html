@@ -31,10 +31,12 @@
                     </h2>
 
                     <!-- 作者信息 -->
-                    <div class="d-flex align-items-center mb-3">
-                        <img th:src="${question.getUsers().getAvatarUrl()}" class="rounded-circle me-2" width="40" height="40">
-                        <span class="fw-bold" th:text="${question.getUsers().getName()}"></span>
-                        <small class="text-muted ms-2" th:text="'发布于 ' + ${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}"></small>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <img th:src="${question.getUsers()?.getAvatarUrl()}"
+                             class="rounded-3" width="50" height="50">
+                        <span class="fw-bold d-inline-block" th:text="${question.getUsers().getName()}"></span>
+                        <small class="text-muted"
+                               th:text="|发布于 ${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}|"></small>
                     </div>
 
                     <hr>
@@ -44,12 +46,14 @@
 
                     <!-- 标签 -->
                     <div class="mb-3">
-                        <span class="badge bg-secondary me-2" th:each="tag : ${question.tag.split(',')}" th:text="${tag}"></span>
+                        <span class="badge bg-secondary me-2" th:each="tag : ${question.tag.split(',')}"
+                              th:text="${tag}"></span>
                     </div>
 
                     <!-- 交互功能 -->
                     <div class="d-flex justify-content-between align-items-center">
-                        <small class="text-muted"><i class="bi bi-eye"></i> <span th:text="${question.viewCount}"></span> 浏览</small>
+                        <small class="text-muted"><i class="bi bi-eye"></i> <span
+                                th:text="${question.viewCount}"></span> 浏览</small>
                         <div>
                             <button class="btn btn-outline-primary btn-sm">
                                 <i class="bi bi-hand-thumbs-up"></i> 赞 <span th:text="${question.likeCount}"></span>
@@ -58,7 +62,8 @@
                                 <i class="bi bi-bookmark"></i> 收藏
                             </button>
                             <!-- 只有作者可见的编辑按钮 -->
-                            <a th:if="${session.users != null and session.users.id == question.creator}" class="btn btn-outline-warning btn-sm"
+                            <a th:if="${session.users != null and session.users.id == question.creator}"
+                               class="btn btn-outline-warning btn-sm"
                                th:href="@{/publish/{id}(id=${question.id})}">
                                 <i class="bi bi-pencil"></i> 编辑
                             </a>
@@ -68,28 +73,60 @@
             </div>
 
             <!-- 评论区 -->
-            <div class="card shadow-sm border-0 rounded-3 mb-4">
+            <div class="card shadow-sm border-0 rounded-3 mb-4 bg-white">
                 <div class="card-body">
-                    <h4 class="mb-3">评论</h4>
-                    <!-- 评论展示区域 -->
-<!--                    <div th:each="comment : ${comments}" class="mb-3 border-bottom pb-2">-->
-<!--                        <div class="d-flex align-items-center">-->
-<!--                            <img th:src="${comment.getUser().getAvatarUrl()}" class="rounded-circle me-2" width="30" height="30">-->
-<!--                            <span class="fw-bold" th:text="${comment.getUser().getName()}"></span>-->
-<!--                            <small class="text-muted ms-2" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd HH:mm')}"></small>-->
-<!--                        </div>-->
-<!--                        <p class="mt-2 mb-0" th:text="${comment.content}"></p>-->
-<!--                    </div>-->
+                    <div class="d-flex align-items-center mb-3">
+                        <h5 class="m-0 text-dark fw-bold">
+                            <i class="bi bi-chat-dots me-2"></i>
+                            <span th:text="${question.commentCount}"></span> 个回复
+                        </h5>
+                    </div>
+<!--                    一级评论列表-->
+                    <div id="comment-list">
+                        <div th:each="comment : ${comments}" class="mb-4 border-bottom pb-3">
+                            <div class="d-flex align-items-start">
+                                <img th:src="${comment.users.getAvatarUrl()}" class="rounded-3" width="48" height="48" alt="头像"/>
+                                <div class="ms-3 flex-grow-1">
+                                    <div class="d-flex justify-content-between">
+                                        <strong th:text="${comment.users.getName()}" class="text-primary"></strong>
+                                        <small class="text-muted" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd')}"></small>
+                                    </div>
+                                    <p class="text-muted mb-2" th:text="${comment.content}"></p>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn btn-outline-primary btn-sm me-2 px-3"
+                                                onclick="likeComment(${comment.id})">
+                                            <i class="bi bi-hand-thumbs-up"></i> <span th:text="${comment.likeCount}"></span>
+                                        </button>
+                                        <button class="btn btn-outline-secondary btn-sm px-3 reply-button"
+                                                th:data-id="${comment.id}" onclick="check(this)">
+                                            <i class="bi bi-reply"></i> 回复
+                                        </button>
+                                    </div>
+
+                                    <!-- 二级评论区（默认隐藏） -->
+                                    <div class="replies mt-3 border-top pt-3 d-none" th:id="'reply-container-' + ${comment.id}"
+                                         style="padding-left: 20px; background-color: #f9f9f9;">
+                                        <div th:id="'comment-list-' + ${comment.id}">
+                                            <!-- 此处显示二级评论 -->
+                                        </div>
+                                        <div class="mt-2" style="text-align: right;">
+                                            <textarea class="form-control" th:id="'reply-content-' + ${comment.id}" rows="2" placeholder="请输入回复..."></textarea>
+                                            <button class="btn btn-sm btn-primary mt-2 ms-auto d-bloc" th:data-id="${comment.id}" onclick="comment(this)">提交</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 评论输入框 -->
-<!--                    <form th:action="@{/comment}" method="post" id="comment_section">-->
-                        <input type="hidden" name="questionId" id="question_id" th:value="${question.id}">
-                        <div class="mb-3">
-                            <textarea class="form-control" name="content" id="comment_content" rows="6" placeholder="请输入评论..."></textarea>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" onclick="post()">提交评论</button>
-                        </div>
-<!--                    </form>-->
+                    <div class="mb-3">
+            <textarea class="form-control border-0 shadow-sm" name="content" id="comment_content" rows="4"
+                      placeholder="请输入评论..." style="border-radius: 10px;"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-4" onclick="post()">提交评论</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,24 +135,26 @@
         <!-- 右侧说明区（占 4/12 屏幕）-->
         <div class="col-lg-3 col-md-2 d-none d-md-block">
             <div class="sticky-sidebar">
-<!--                <div class="card shadow-sm mb-4">-->
-<!--                    <div class="card-body">-->
-<!--                        <h5>发起人</h5>-->
-<!--                        <div class="d-flex align-items-center">-->
-<!--                            <img th:src="${question.getUsers().getAvatarUrl()}" class="rounded-circle me-2" width="40" height="40">-->
-<!--                            <span class="fw-bold" th:text="${question.getUsers().getName()}"></span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5>发起人</h5>
+                        <div class="d-flex align-items-center">
+                            <img th:src="${question.getUsers()?.getAvatarUrl()}"
+                                 class="rounded-3 me-2" width="50" height="50">
+                            <span class="fw-bold d-flex align-items-center"
+                                  th:text="${question.getUsers().getName()}"></span>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h5>相关问题</h5>
-<!--                        <ul class="list-unstyled">-->
-<!--                            <li th:each="related : ${relatedQuestions}">-->
-<!--                                <a th:href="@{/question/{id}(id=${related.id})}" th:text="${related.title}"></a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
+                        <!--                        <ul class="list-unstyled">-->
+                        <!--                            <li th:each="related : ${relatedQuestions}">-->
+                        <!--                                <a th:href="@{/question/{id}(id=${related.id})}" th:text="${related.title}"></a>-->
+                        <!--                            </li>-->
+                        <!--                        </ul>-->
                     </div>
                 </div>
             </div>

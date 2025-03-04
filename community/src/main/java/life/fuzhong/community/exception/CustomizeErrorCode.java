@@ -6,7 +6,10 @@ public enum CustomizeErrorCode implements ICustomizeError{
     NO_LOGIN(2003,"用户未登录"),
     SYS_ERROR(2004, "服务器出现故障了，正在尽力维修中，请稍后再试"),
     TYPE_PARAM_WRONG(2005, "评论类型有误，请重新选择"),
-    COMMENT_NOT_FOUND(2006, "评论以被删除，无法评论");
+    COMMENT_NOT_FOUND(2006, "评论以被删除，无法评论"),
+    COMMENT_IS_EMPTY(2007, "输入内容不能为空"),
+    ;
+
 
 
     private Integer code;

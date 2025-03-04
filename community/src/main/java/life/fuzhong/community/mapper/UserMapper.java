@@ -3,6 +3,8 @@ package life.fuzhong.community.mapper;
 import life.fuzhong.community.model.Users;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     @Insert("insert into users (name,account_id,token,gmt_create,gmt_modified,avatar_url,bio) values (#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified},#{avatarUrl}," + "COALESCE(#{bio}, '') )" )
@@ -19,4 +21,13 @@ public interface UserMapper {
 
     @Update("update users set name = #{name}, token = #{token}, gmt_modified = #{gmtModified}, avatar_url = #{avatarUrl} where id = #{id}")
     void update(Users users);
+
+    @Select("<script>" +
+            "select * from users where id IN " +
+            "<foreach item='id' collection='usersIds' open='(' separator=',' close=')'>" +
+            "#{id}" +
+            "</foreach>" +
+            "</script>")
+    List<Users> selectAllUsers(@Param("usersIds") List<Long> usersIds);
+
 }
