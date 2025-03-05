@@ -48,6 +48,8 @@ public class CommentService {
             }
             commentMapper.create(comment);
 
+            commentMapper.incCommentCount(dbComment);
+
 
         }else {
             //回复问题

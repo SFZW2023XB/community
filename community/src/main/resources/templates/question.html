@@ -101,6 +101,8 @@
                                                 th:data-id="${comment.id}" onclick="check(this)">
                                             <i class="bi bi-reply"></i> 回复
                                         </button>
+                                        <!-- 在这里增加评论数 -->
+                                        <span class="ms-2 text-muted" th:text="'(' + ${comment.commentCount} + ')'"></span>
                                     </div>
 
                                     <!-- 二级评论区（默认隐藏） -->
