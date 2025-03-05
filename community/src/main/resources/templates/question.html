@@ -152,11 +152,11 @@
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <h5>相关问题</h5>
-                        <!--                        <ul class="list-unstyled">-->
-                        <!--                            <li th:each="related : ${relatedQuestions}">-->
-                        <!--                                <a th:href="@{/question/{id}(id=${related.id})}" th:text="${related.title}"></a>-->
-                        <!--                            </li>-->
-                        <!--                        </ul>-->
+                            <ul class="list-unstyled">
+                                <li th:each="related : ${relatedQuestions}">
+                                    <a th:href="@{/question/{id}(id=${related.id})}" th:text="${related.title}"></a>
+                                </li>
+                            </ul>
                     </div>
                 </div>
             </div>

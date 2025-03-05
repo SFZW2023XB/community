@@ -1,6 +1,7 @@
 package life.fuzhong.community.service;
 
 import jakarta.annotation.Resource;
+import life.fuzhong.community.dto.CommentDTO;
 import life.fuzhong.community.dto.PaginationDTO;
 import life.fuzhong.community.dto.QuestionDTO;
 import life.fuzhong.community.exception.CustomizeErrorCode;
@@ -9,11 +10,14 @@ import life.fuzhong.community.mapper.QuestionMapper;
 import life.fuzhong.community.mapper.UserMapper;
 import life.fuzhong.community.model.Question;
 import life.fuzhong.community.model.Users;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -124,5 +128,26 @@ public class QuestionService {
 
     public void incView(Long id) {
         questionMapper.incrementViewCount(id);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
+        if(StringUtils.isBlank(queryDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(queryDTO.getTag(), ",");
+        String regexTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexTag);
+
+        List<Question> questionList = questionMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOs = questionList.stream().map(q ->{
+             QuestionDTO questionDTO = new QuestionDTO();
+             BeanUtils.copyProperties(q, questionDTO);
+             return questionDTO;
+        }).collect(Collectors.toList());
+
+
+        return questionDTOs;
     }
 }
