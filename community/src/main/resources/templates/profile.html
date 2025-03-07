@@ -29,28 +29,46 @@
                     <hr>
 
                     <!-- 循环显示问题 -->
-                    <div class="row g-0 mb-4" th:each="question : ${pagination.data}"  style="border-bottom: 1px solid #e6e6e6;">
-                        <div class="col-md-2 d-flex justify-content-center align-items-center">
-                            <img th:src="${question.users.getAvatarUrl()}" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
-                        </div>
-                        <div class="col-md-10">
-                            <h5 class="mt-0" style="font-size: 1.2rem; font-weight: 500;">
-                                <a th:href="@{'/question/' + ${question.getId()}}" th:text="${question.getTitle()}"></a>
-                            </h5>
-
-
-                            <div class="d-flex justify-content-between align-items-center text-muted mt-2" style="font-size: 0.875rem;">
-                                <span>
-                                    <i class="bi bi-eye"></i> <span th:text="${question.getViewCount()}"></span> 次浏览
-                                    <i class="bi bi-hand-thumbs-up"></i> <span th:text="${question.getLikeCount()}"></span> 个点赞
-                                    <i class="bi bi-chat-dots"></i> <span th:text="${question.getCommentCount()}"></span> 个评论
-                                </span>
-                                <span class="text-muted">
-                                    发布日期： <span th:text="${#calendars.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
-                                </span>
+                    <div th:if="${section == 'questions'}">
+                        <div class="row g-0 mb-4" th:each="question : ${pagination.data}" style="border-bottom: 1px solid #e6e6e6;">
+                            <div class="col-md-2 d-flex justify-content-center align-items-center">
+                                <img th:src="${question.users.getAvatarUrl()}" class="img-fluid"
+                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                            </div>
+                            <div class="col-md-10">
+                                <h5 class="mt-0" style="font-size: 1.2rem; font-weight: 500;">
+                                    <a th:href="@{'/question/' + ${question.getId()}}" th:text="${question.getTitle()}"></a>
+                                </h5>
+                                <div class="d-flex justify-content-between align-items-center text-muted mt-2" style="font-size: 0.875rem;">
+                                    <span>
+                                        <i class="bi bi-eye"></i> <span th:text="${question.getViewCount()}"></span> 次浏览
+                                        <i class="bi bi-hand-thumbs-up"></i> <span th:text="${question.getLikeCount()}"></span> 个点赞
+                                        <i class="bi bi-chat-dots"></i> <span th:text="${question.getCommentCount()}"></span> 个评论
+                                    </span>
+                                    <span class="text-muted">
+                                        发布日期： <span th:text="${#calendars.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- 通知列表 -->
+                    <div th:if="${section == 'replies'}">
+                        <div class="row g-0 mb-4" th:each="notification : ${pagination.data}" style="border-bottom: 1px solid #e6e6e6;">
+                            <div class="col-md-10">
+                                <h5 class="mt-0" style="font-size: 1.2rem; font-weight: 500;">
+                                    <a th:href="@{'/notification/' + ${notification.id}}" th:text="${notification.notifierName + ' ' + notification.type + ' ' + notification.outerTitle}"></a>
+                                </h5>
+                                <div class="text-muted mt-2" style="font-size: 0.875rem;">
+                                    <span class="text-muted">
+                                            <i class="bi bi-clock"></i> <span th:text="${#calendars.format(notification.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item" th:if="${pagination.showFirst}">
@@ -97,7 +115,7 @@
                         </a>
                         <a href="/profile/replies" th:class="${section== 'replies'} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action' ">
                             最新回复
-                            <span class="badge text-bg-primary rounded-pill">14</span>
+                            <span class="badge text-bg-primary rounded-pill" th:text="${unreadCount}" ></span>
                         </a>
                         <a href="#" class="list-group-item list-group-item-action">A third link item</a>
                         <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>

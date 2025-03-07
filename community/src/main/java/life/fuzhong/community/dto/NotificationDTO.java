@@ -8,7 +8,8 @@ public class NotificationDTO {
     private Long id;
     private Long gmtCreate;
     private Integer status;
-    private Users notifier;
+    private Long notifier;
+    private String notifierName;
     private String outerTitle;
     private String type;
 

@@ -36,7 +36,7 @@ public class CommentService {
     private NotificationMapper notificationMapper;
 
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment, Users commentator) {
         if(comment.getParentId() == null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -47,11 +47,12 @@ public class CommentService {
         if(comment.getType() == CommentTypeEnum.COMMENT.getType()){
             //回复评论
             Comment dbComment = commentMapper.selectById(comment.getParentId());
+            Question question = questionMapper.findByID(dbComment.getParentId());
             if (dbComment == null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.create(comment);
-            createNotify(comment, dbComment.getCommentator(), NotificationEnum.REPLY_COMMMENT);
+            createNotify(comment, dbComment.getCommentator(),commentator.getName(), question.getTitle(), NotificationEnum.REPLY_COMMMENT);
 
 
             commentMapper.incCommentCount(dbComment);
@@ -65,19 +66,21 @@ public class CommentService {
             }
 
             commentMapper.create(comment);
-            createNotify(comment, question.getCreator(), NotificationEnum.REPLY_QUESTOIN);
+            createNotify(comment, question.getCreator(), commentator.getName(),question.getTitle(), NotificationEnum.REPLY_QUESTOIN);
             questionMapper.incCommentCount(question);
 
         }
     }
 
-    private void createNotify(Comment comment, Long target, NotificationEnum notificationEnum) {
+    private void createNotify(Comment comment, Long target, String notifierName, String outerTitle, NotificationEnum notificationEnum) {
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setType(notificationEnum.getType());
         notification.setOuterId(comment.getParentId());
         notification.setReceiver(target);
         notification.setNotifier(comment.getCommentator());
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
         notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
         notificationMapper.create(notification);
     }
