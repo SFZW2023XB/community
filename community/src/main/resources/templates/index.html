@@ -39,7 +39,7 @@
                     <hr>
 
                     <!-- 循环显示问题 -->
-                    <div class="row g-0 mb-4" th:each="question : ${pagination.questions}"  style="border-bottom: 1px solid #e6e6e6;">
+                    <div class="row g-0 mb-4" th:each="question : ${pagination.data}"  style="border-bottom: 1px solid #e6e6e6;">
                         <div class="col-md-2 d-flex justify-content-center align-items-center">
                             <img th:src="${question.users.getAvatarUrl()}" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
                         </div>

@@ -87,3 +87,74 @@ body {
     max-width: 150px; /* 设置宽度为150px */
     height: auto; /* 保持纵横比 */
 }
+
+/* 样式优化：整体布局 */
+.category-title {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    margin-top: 10px;
+    display: block;
+    transition: color 0.3s;
+}
+
+.category-title:hover {
+    color: #007bff; /* 鼠标悬停时颜色变化 */
+}
+
+/* 标签容器 */
+.tag-container {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* 标签样式 */
+.tag-container .tag {
+    background-color: #e1ecf4;
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+/* 标签悬停效果 */
+.tag-container .tag:hover {
+    background-color: #d0e3f1;
+}
+
+/* 使标签输入框的样式更加美观 */
+#tag {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#tag:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.small {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.text-danger {
+    font-size: 14px;
+    color: #e74c3c;
+}
+
+/* 显示和隐藏标签 */
+.d-none {
+    display: none;
+}
+
+.d-block {
+    display: block;
+}

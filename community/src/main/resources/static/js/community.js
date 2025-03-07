@@ -112,8 +112,25 @@ function check(button) {
     }
 }
 
+// 选择标签函数
+function selectTag(value) {
+    var input = $("#tag");
+    var previous = input.val();
+    var tags = previous ? previous.split(", ") : [];
 
+    var index = tags.indexOf(value);
+    if (index === -1) {
+        tags.push(value); // 如果标签不存在则添加
+    } else {
+        tags.splice(index, 1); // 如果已存在，则删除
+    }
+    input.val(tags.join(", ")); // 更新输入框
+}
 
+// 展开/折叠标签分类
+function toggleTags(categoryIndex) {
+    $("#tags-" + categoryIndex).toggleClass("d-none"); // 展开/折叠标签
+}
 
 
 

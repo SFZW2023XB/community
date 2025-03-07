@@ -1,15 +1,18 @@
 package life.fuzhong.community.service;
 
 import jakarta.annotation.Resource;
-import life.fuzhong.community.dto.CommentCreateDTO;
 import life.fuzhong.community.dto.CommentDTO;
 import life.fuzhong.community.enums.CommentTypeEnum;
+import life.fuzhong.community.enums.NotificationEnum;
+import life.fuzhong.community.enums.NotificationStatusEnum;
 import life.fuzhong.community.exception.CustomizeErrorCode;
 import life.fuzhong.community.exception.CustomizeException;
 import life.fuzhong.community.mapper.CommentMapper;
+import life.fuzhong.community.mapper.NotificationMapper;
 import life.fuzhong.community.mapper.QuestionMapper;
 import life.fuzhong.community.mapper.UserMapper;
 import life.fuzhong.community.model.Comment;
+import life.fuzhong.community.model.Notification;
 import life.fuzhong.community.model.Question;
 import life.fuzhong.community.model.Users;
 import org.springframework.beans.BeanUtils;
@@ -17,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +32,8 @@ public class CommentService {
     private QuestionMapper questionMapper;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private NotificationMapper notificationMapper;
 
     @Transactional
     public void insert(Comment comment) {
@@ -47,6 +51,8 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.create(comment);
+            createNotify(comment, dbComment.getCommentator(), NotificationEnum.REPLY_COMMMENT);
+
 
             commentMapper.incCommentCount(dbComment);
 
@@ -59,9 +65,21 @@ public class CommentService {
             }
 
             commentMapper.create(comment);
+            createNotify(comment, question.getCreator(), NotificationEnum.REPLY_QUESTOIN);
             questionMapper.incCommentCount(question);
 
         }
+    }
+
+    private void createNotify(Comment comment, Long target, NotificationEnum notificationEnum) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationEnum.getType());
+        notification.setOuterId(comment.getParentId());
+        notification.setReceiver(target);
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notificationMapper.create(notification);
     }
 
     public List<CommentDTO> listByQuestionId(Long id) {

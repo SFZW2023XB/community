@@ -5,6 +5,7 @@ import jakarta.annotation.Resource;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import life.fuzhong.community.cache.TagCache;
 import life.fuzhong.community.dto.QuestionDTO;
 import life.fuzhong.community.mapper.QuestionMapper;
 import life.fuzhong.community.mapper.UserMapper;
@@ -33,12 +34,15 @@ public class PublishController {
         model.addAttribute("description", question.getDescription());
         model.addAttribute("tag", question.getTag());
         model.addAttribute("id", question.getId());
+        model.addAttribute("tags", TagCache.get());
 
         return "publish";
     }
 
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -54,6 +58,7 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tags", TagCache.get());
 
         if(title == null || title == ""){
             model.addAttribute("errorTitle", "标题不能为空");

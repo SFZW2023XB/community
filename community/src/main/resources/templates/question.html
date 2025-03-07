@@ -123,12 +123,19 @@
 
                     <!-- 评论输入框 -->
                     <div class="mb-3">
-            <textarea class="form-control border-0 shadow-sm" name="content" id="comment_content" rows="4"
-                      placeholder="请输入评论..." style="border-radius: 10px;"></textarea>
+                        <!-- 隐藏输入框，用于存储问题的 ID -->
+                        <input type="hidden" id="question_id" th:value="${question.id}">
+
+                        <!-- 评论输入框 -->
+                        <textarea class="form-control border-0 shadow-sm" name="content" id="comment_content" rows="4"
+                                  placeholder="请输入评论..." style="border-radius: 10px;"></textarea>
                     </div>
+
+                    <!-- 提交按钮 -->
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary px-4" onclick="post()">提交评论</button>
                     </div>
+
                 </div>
             </div>
         </div>
