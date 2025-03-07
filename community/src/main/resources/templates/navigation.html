@@ -29,7 +29,14 @@
 
                 <!-- 登录按钮或用户中心，右侧显示 -->
                 <ul class="navbar-nav ms-auto"> <!-- 使整个ul右对齐 -->
+                    <a href="/profile/replies" class="btn btn-outline-warning position-relative me-2">
+                        <i class="bi bi-bell"></i> <!-- 铃铛图标 -->
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge"
+                              th:if="${unreadCount > 0}" th:text="${unreadCount}">
+                        </span>
+                    </a>
                     <a href="/publish" class="btn btn-primary me-2">提问</a>
+
                     <!-- 用户已登录时显示的下拉菜单 -->
                     <li class="nav-item dropdown" th:if="${session.users != null}">
 

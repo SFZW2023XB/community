@@ -58,7 +58,7 @@
                         <div class="row g-0 mb-4" th:each="notification : ${pagination.data}" style="border-bottom: 1px solid #e6e6e6;">
                             <div class="col-md-10">
                                 <h5 class="mt-0" style="font-size: 1.2rem; font-weight: 500;">
-                                    <a th:href="@{'/notification/' + ${notification.id}}" th:text="${notification.notifierName + ' ' + notification.type + ' ' + notification.outerTitle}"></a>
+                                    <a th:href="@{'/notification/' + ${notification.id}}" th:text="${notification.notifierName + ' ' + notification.typeName + ' ' + notification.outerTitle}"></a>
                                 </h5>
                                 <div class="text-muted mt-2" style="font-size: 0.875rem;">
                                     <span class="text-muted">
@@ -117,9 +117,6 @@
                             最新回复
                             <span class="badge text-bg-primary rounded-pill" th:text="${unreadCount}" ></span>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action">A third link item</a>
-                        <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
-                        <a class="list-group-item list-group-item-action disabled" aria-disabled="true">A disabled link item</a>
                     </div>
                 </div>
             </div>

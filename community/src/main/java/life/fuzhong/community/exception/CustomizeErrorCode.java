@@ -8,6 +8,9 @@ public enum CustomizeErrorCode implements ICustomizeError{
     TYPE_PARAM_WRONG(2005, "评论类型有误，请重新选择"),
     COMMENT_NOT_FOUND(2006, "评论以被删除，无法评论"),
     COMMENT_IS_EMPTY(2007, "输入内容不能为空"),
+    NOTIFICATION_NOT_FOUND(2008, "消息不见了，被噩梦吃掉了吗？"),
+    CHECK_OTHERS_EXCEPTION(2009, "这个是不正经的偷窥呦！"),
+
     ;
 
 

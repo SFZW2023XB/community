@@ -1,5 +1,6 @@
 package life.fuzhong.community.dto;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import life.fuzhong.community.model.Users;
 import lombok.Data;
 
@@ -11,6 +12,8 @@ public class NotificationDTO {
     private Long notifier;
     private String notifierName;
     private String outerTitle;
-    private String type;
+    private Long outerid;
+    private String typeName;
+    private Integer type;
 
 }

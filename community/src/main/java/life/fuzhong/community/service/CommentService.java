@@ -52,7 +52,7 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.create(comment);
-            createNotify(comment, dbComment.getCommentator(),commentator.getName(), question.getTitle(), NotificationEnum.REPLY_COMMMENT);
+            createNotify(comment, dbComment.getCommentator(),commentator.getName(), question.getTitle(), NotificationEnum.REPLY_COMMMENT, question.getId());
 
 
             commentMapper.incCommentCount(dbComment);
@@ -66,17 +66,17 @@ public class CommentService {
             }
 
             commentMapper.create(comment);
-            createNotify(comment, question.getCreator(), commentator.getName(),question.getTitle(), NotificationEnum.REPLY_QUESTOIN);
+            createNotify(comment, question.getCreator(), commentator.getName(),question.getTitle(), NotificationEnum.REPLY_QUESTOIN, question.getId());
             questionMapper.incCommentCount(question);
 
         }
     }
 
-    private void createNotify(Comment comment, Long target, String notifierName, String outerTitle, NotificationEnum notificationEnum) {
+    private void createNotify(Comment comment, Long target, String notifierName, String outerTitle, NotificationEnum notificationEnum, Long outerId) {
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setType(notificationEnum.getType());
-        notification.setOuterId(comment.getParentId());
+        notification.setOuterid(outerId);
         notification.setReceiver(target);
         notification.setNotifier(comment.getCommentator());
         notification.setNotifierName(notifierName);
