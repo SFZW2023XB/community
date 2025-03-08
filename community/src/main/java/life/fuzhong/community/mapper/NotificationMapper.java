@@ -15,7 +15,7 @@ public interface NotificationMapper {
     @Select("select count(1) from notification where receiver = #{usersID} and status = 0")
     Long countUnreadByUsersID(Long usersID);
 
-    @Select("select * from notification where receiver = #{usersID} limit #{size} offset #{offset}")
+    @Select("select * from notification where receiver = #{usersID} ORDER BY gmt_create DESC limit #{size} offset #{offset}")
     List<Notification> listByUsersID(Long usersID, Integer offset, Integer size);
 
 

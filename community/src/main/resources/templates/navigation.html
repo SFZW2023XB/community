@@ -32,7 +32,7 @@
                     <a href="/profile/replies" class="btn btn-outline-warning position-relative me-2">
                         <i class="bi bi-bell"></i> <!-- 铃铛图标 -->
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge"
-                              th:if="${unreadCount > 0}" th:text="${unreadCount}">
+                              th:if="${unreadCount > 0}" th:text="${session.unreadCount}">
                         </span>
                     </a>
                     <a href="/publish" class="btn btn-primary me-2">提问</a>
